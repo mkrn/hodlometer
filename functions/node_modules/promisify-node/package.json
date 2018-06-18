@@ -1,0 +1,23 @@
+{
+  "name": "promisify-node",
+  "version": "0.5.0",
+  "description": "Wrap Node-callback functions to return Promises.",
+  "main": "index.js",
+  "dependencies": {
+    "nodegit-promise": "^4.0.0",
+    "object-assign": "^4.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "istanbul": "^0.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodegit/promisify-node.git"
+  },
+  "scripts": {
+    "test": "istanbul cover _mocha -- test"
+  },
+  "author": "Tim Branyen (@tbranyen)",
+  "license": "MIT"
+}

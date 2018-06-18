@@ -1,0 +1,32 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "prepare": "babel ./*.es7 --retain-lines -d ./",
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "npm run prepare && firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "binance-api-node": "^0.8.0",
+    "cors": "^2.8.4",
+    "firebase-admin": "~5.12.1",
+    "firebase-functions": "^1.0.3",
+    "lodash": "^4.17.10",
+    "promisify-node": "^0.5.0",
+    "talib": "^1.0.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.12.0",
+    "eslint-plugin-promise": "^3.6.0"
+  },
+  "private": true
+}
