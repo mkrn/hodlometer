@@ -8,12 +8,12 @@ const getLegend = (sector, isLast) => {
   const hodl = first.hodl;
 
   const part1 = hodl ?
-    `Buy for ${first.close}` :
+    `Buy at ${first.close}` :
     `Sell at ${first.close}`;
 
   const part2 = hodl ?
     `Sell at ${last.close}` :
-    `Buy back for ${last.close}`;
+    `Buy back at ${last.close}`;
 
   return isLast ? part1 : `${part1}, ${part2}`;
 }

@@ -31,14 +31,30 @@ const coins = [
     symbol: 'XRPBTC', name: 'Ripple'
   },
   {
-    symbol: 'ETCBTC', name: 'ETC'
+    symbol: 'BCCBTC', name: 'Bitcoin Cash'
   },
   {
-    symbol: 'TRXBTC', name: 'Tron'
+    symbol: 'EOSBTC', name: 'EOS'
+  },
+  {
+    symbol: 'LTCBTC', name: 'Litecoin'
+  },
+  {
+    symbol: 'LTCBTC', name: 'Litecoin'
+  },
+  {
+    symbol: 'XLMBTC', name: 'Stellar'
   },
   {
     symbol: 'ADABTC', name: 'Cardano'
+  },
+  {
+    symbol: 'IOTABTC', name: 'IOTA'
+  },
+  {
+    symbol: 'TRXBTC', name: 'Tron'
   }
+
 ];
 
 
@@ -81,15 +97,15 @@ class App extends Component {
     return (
       <div>
         <Navbar color="inverse" light expand="md">
-          <NavbarBrand href="/">hodlometer</NavbarBrand>
+          <NavbarBrand href="/">HODLometer</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/how_it_works/">How it works</NavLink>
+                <NavLink href="/how_it_works/">How it works?</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/what_is_fodl">What is FODL</NavLink>
+                <NavLink href="/what_is_fodl">What is FODL?</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/automate">Automate It!</NavLink>
@@ -99,7 +115,8 @@ class App extends Component {
         </Navbar>
         {
           coins.map(({ symbol, name }) => {
-            const isHodl = hodl(graphs[symbol] || []);
+            const chart = graphs[symbol] || [];
+            const isHodl = hodl(chart);
             return (
               <Container style={{ marginTop: 40 }}>
                 <Row>
@@ -111,9 +128,18 @@ class App extends Component {
                       { ' ' }
                       { name }
                     </h1>
-                    <p>HODLing: { hodlRevenue(graphs[symbol]) }% With hodlometer: { hodlometerRevenue(graphs[symbol]) }%</p>
+                    { !!chart.length &&
+                      <p>
+                        { chart.length } days return:
+                        HODLing: { hodlRevenue(chart) }%,
+                        HODLometer: <strong>{ hodlometerRevenue(chart) }%</strong>
+                      </p>
+                    }
 
-                    <LineChart data={graphs[symbol] || []} />
+                    <LineChart data={chart} />
+                    <p style={{ fontSize: '8px', textAlign: 'right' }}>
+                      {symbol} on Binance
+                    </p>
                   </Col>
                 </Row>
               </Container>
