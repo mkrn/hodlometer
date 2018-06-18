@@ -104,7 +104,7 @@ class App extends Component {
 
   toggleModal = (name) => (evt) => {
     evt.preventDefault();
-    console.log(name);
+
     this.setState({
       modals: {
         ...this.state.modals,
@@ -145,6 +145,13 @@ class App extends Component {
                   onClick={this.toggleModal('automate')}
                 >
                   Automate It!</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  href="https://t.me/hodlometer"
+                >
+                  Telegram
+                </NavLink>
               </NavItem>
             </Nav>
           </Collapse>

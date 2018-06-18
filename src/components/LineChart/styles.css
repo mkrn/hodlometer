@@ -1,10 +1,12 @@
 .linechart_path {
   stroke-width: 2;
   fill: none;
+
 }
 .linechart_axis {
   stroke: #bdc3c7;
 }
 .LineChart_smallLegend {
   font-size: 10px;
+  background: white;
 }

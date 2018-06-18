@@ -20,7 +20,7 @@ export const getSectors = (data) => {
     ({ close, time, trailing, hodl: close >= trailing }));
 
   hodldata.forEach(({ close, time, trailing, hodl }, i) => {
-    if (hodl !== h || i == hodldata.length - 1) {
+    if (hodl !== h || i === hodldata.length - 1) {
       sectors.push(hodldata.slice(start, i+1));
       start = i;
       h = hodl;

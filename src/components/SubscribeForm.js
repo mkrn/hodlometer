@@ -20,8 +20,11 @@ class SubscribeForm extends Component {
           <input type="hidden" name="subscribers_list_hash" value="lpai693qam" /><br />
           <Input type="email" name="freshmail_email" placeholder="Your email" />
           { ' ' }
-          <Button color="primary">{ `Keep me updated`}</Button>
+          <Button color="primary">Get Launch Invitation</Button>
         </Form>
+        <p>
+          <a href="https://t.me/hodlometer">Join on Telegram to know when to HODL again</a>
+        </p>
       </Jumbotron>
     );
   }

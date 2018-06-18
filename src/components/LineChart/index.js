@@ -24,12 +24,14 @@ class LineChart extends Component {
 
     this.state = {
       legend: '',
+      legendX: 20,
     };
   }
 
-  setLegend = (sector, isLast) => {
+  setLegend = (sector, isLast, legendX) => {
     this.setState({
       legend: getLegend(sector, isLast),
+      legendX,
     });
   }
 
@@ -43,7 +45,10 @@ class LineChart extends Component {
 
     const { time: firstX, close: firstY } = first;
 
-    let pathD = "M " + getSvgX(firstX, svgWidth, data) + " " + getSvgY(firstY, svgHeight, data) + " ";
+    const svgStartX = getSvgX(firstX, svgWidth, data);
+    const svgStartY = getSvgY(firstY, svgHeight, data);
+
+    let pathD = "M " + svgStartX + " " + svgStartY + " ";
 
     pathD += sector.map(({ time, close }, i) => {
       return "L " + getSvgX(time, svgWidth, data) + " " + getSvgY(close, svgHeight, data) + " ";
@@ -54,7 +59,7 @@ class LineChart extends Component {
         className="linechart_path"
         d={pathD}
         style={{ stroke }}
-        onMouseOver={() => this.setLegend(sector, isLast)}
+        onMouseOver={() => this.setLegend(sector, isLast, svgStartX)}
         onMouseOut={() => this.setState({ legend: '' })}
       />
     );
@@ -62,15 +67,16 @@ class LineChart extends Component {
 
   render() {
     const { svgHeight, svgWidth, data } = this.props;
-    const { legend } = this.state;
+    const { legend, legendX } = this.state;
     const sectors = getSectors(data);
 
     return (
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
-        <text x="20" y="20" class="LineChart_smallLegend">{ legend }</text>
+
         {
           sectors.map((sector, i) => this.makePath(sector, data, i === (sectors.length - 1)))
         }
+        <text x={legendX} y="15" class="LineChart_smallLegend">{ legend }</text>
       </svg>
     );
   }
