@@ -45,9 +45,14 @@ export const hodlRevenue = graph => {
 
 export const hodlometerRevenue = graph => {
   const sectors = getSectors(graph || []);
-  const revenue = 0;
+  const revenue = 100;
+
   const total = sectors.reduce((prev, sector) => {
-    return prev * (1 + getReturn(sector || []));
-  }, 1) * 100;
+    const h = sector[0].hodl;
+    if (h)
+      return prev + prev * getReturn(sector || [])
+    else
+      return prev;
+  }, revenue) - revenue;
   return Math.round(total);
 }

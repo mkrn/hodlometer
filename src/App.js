@@ -40,9 +40,6 @@ const coins = [
     symbol: 'LTCBTC', name: 'Litecoin'
   },
   {
-    symbol: 'LTCBTC', name: 'Litecoin'
-  },
-  {
     symbol: 'XLMBTC', name: 'Stellar'
   },
   {
@@ -54,7 +51,6 @@ const coins = [
   {
     symbol: 'TRXBTC', name: 'Tron'
   }
-
 ];
 
 

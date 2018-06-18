@@ -2,7 +2,7 @@ const _ = require('lodash');
 const talib = require('talib');
 
 const period = 5;
-const k = 2;
+const k = 1.75;
 
 module.exports = (high, low, closes, times, cb) => {
   talib.execute({
