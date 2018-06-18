@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Form,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -11,15 +12,20 @@ import {
   Row,
   Col,
   Jumbotron,
-  Button
+  Button,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody
 } from 'reactstrap';
 
 import LineChart from './components/LineChart';
+import SubscribeForm from './components/SubscribeForm';
 import { hodl, hodlRevenue, hodlometerRevenue } from './lib';
 import logo from './logo.svg';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
+// TOP 10 Coins
 const coins = [
   {
     symbol: 'BTCUSDT', name: 'Bitcoin'
@@ -53,6 +59,15 @@ const coins = [
   }
 ];
 
+const Explain = ({ children, title, isOpen, toggle }) => (
+  <Modal isOpen={isOpen} toggle={toggle}>
+    <ModalHeader toggle={toggle}>{ title }</ModalHeader>
+    <ModalBody>
+      { children }
+    </ModalBody>
+  </Modal>
+);
+
 
 class App extends Component {
   constructor(props) {
@@ -60,7 +75,8 @@ class App extends Component {
 
     this.state = {
       graphs: {},
-      isOpen: false
+      isOpen: false,
+      modals: {},
     };
   }
 
@@ -86,9 +102,20 @@ class App extends Component {
     })
   }
 
+  toggleModal = (name) => (evt) => {
+    evt.preventDefault();
+    console.log(name);
+    this.setState({
+      modals: {
+        ...this.state.modals,
+        [name]: !this.state.modals[name]
+      }
+    })
+  }
+
   render() {
 
-    const { graphs } = this.state;
+    const { graphs, modals } = this.state;
 
     return (
       <div>
@@ -98,17 +125,63 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/how_it_works/">How it works?</NavLink>
+                <NavLink
+                  href="/how_it_works/"
+                  onClick={this.toggleModal('how_it_works')}
+                >
+                  How it works?
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/what_is_fodl">What is FODL?</NavLink>
+                <NavLink
+                  href="/what_is_fodl"
+                  onClick={this.toggleModal('what_is_fodl')}
+                >
+                  What is FODL?</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/automate">Automate It!</NavLink>
+                <NavLink
+                  href="/automate"
+                  onClick={this.toggleModal('automate')}
+                >
+                  Automate It!</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
+
+        <Explain
+          title="How it works"
+          toggle={this.toggleModal('how_it_works')}
+          isOpen={modals['how_it_works']}
+        >
+          <p>Our algorithm calculates the periods of uptrend and downtrend using average volatility for several days.</p>
+          <p>We then hold a trailing target which, when crossed, signals a change of direction</p>
+          <p>On the charts periods when algorithm would hold crypto asset are shown in green, and periods of FODL are shown in red.</p>
+          <p>It allows to take profits and cut losses and in most cases end up with significantly better returns.</p>
+
+        </Explain>
+
+        <Explain
+          title="What is FODL"
+          toggle={this.toggleModal('what_is_fodl')}
+          isOpen={modals['what_is_fodl']}
+        >
+          <p>FODL is selling your Bitcoin for a stablecoin such as USDT (Tether) or TUSD,
+          or selling your altcoin for Bitcoin when market is downtrending.</p>
+          <p>Oppositely, HODL refers to holding the cryptocurrency rather than selling it.</p>
+          <p>Our calculations show that it's more profitable to take profits and buy back into a clear uptrend to make more profit overall.</p>
+          <p>If you like the idea of automatically taking profit and not missing an uptrend, subscribe to be the first to know when we release an automated tool.</p>
+        </Explain>
+
+        <Explain
+          title="Automate It"
+          toggle={this.toggleModal('automate')}
+          isOpen={modals['automate']}
+        >
+          <SubscribeForm />
+        </Explain>
+
         {
           coins.map(({ symbol, name }) => {
             const chart = graphs[symbol] || [];
@@ -124,6 +197,7 @@ class App extends Component {
                       { ' ' }
                       { name }
                     </h1>
+
                     { !!chart.length &&
                       <p>
                         { chart.length } days return:
@@ -133,6 +207,7 @@ class App extends Component {
                     }
 
                     <LineChart data={chart} />
+
                     <p style={{ fontSize: '8px', textAlign: 'right' }}>
                       {symbol} on Binance
                     </p>
@@ -142,6 +217,8 @@ class App extends Component {
             )
           })
         }
+
+        <SubscribeForm />
       </div>
     );
   }

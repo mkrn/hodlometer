@@ -37,7 +37,7 @@ class LineChart extends Component {
     const { svgWidth, svgHeight } = this.props;
 
     const first = sector[0];
-    const stroke = first.hodl ? '#28a745' : '#dc3545';
+    const stroke = first.hodl ? '#28a745' : '#dc3545'; //  grey '#6c757d'
 
     if (sector.length <= 0) return null;
 
@@ -81,4 +81,5 @@ LineChart.defaultProps = {
   svgHeight: 75,
   svgWidth: 700
 }
+
 export default LineChart;
