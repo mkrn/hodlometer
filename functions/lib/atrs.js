@@ -1,10 +1,13 @@
 const _ = require('lodash');
 const talib = require('talib');
 
+// Parameters
 const period = 5;
 const k = 1.75;
 
 module.exports = (high, low, closes, times, cb) => {
+  // 1) Calculate medium ATR for `period` periods
+
   talib.execute({
     name: 'ATR',
     high,
@@ -18,9 +21,9 @@ module.exports = (high, low, closes, times, cb) => {
       return cb(err);
     }
 
-    // console.log(result);
     const atrsOut = result.result.outReal;
 
+    // Will hold trailing stop line and close values for each day
     const line = [];
 
     closes.forEach((close, i) => {
