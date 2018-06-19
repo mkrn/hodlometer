@@ -9,4 +9,5 @@
 .LineChart_smallLegend {
   font-size: 10px;
   background: white;
+  pointer-events: none;
 }

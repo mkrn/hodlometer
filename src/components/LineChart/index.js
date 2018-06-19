@@ -66,7 +66,7 @@ class LineChart extends Component {
         <path
           className="linechart_path"
           d={pathD}
-          style={{ stroke }}
+          style={{ stroke, pointerEvents: "none" }}
         />
         <rect
           x={svgStartX}
@@ -92,7 +92,11 @@ class LineChart extends Component {
         {
           sectors.map((sector, i) => this.makePath(sector, data, i === (sectors.length - 1)))
         }
-        <text x={legendX} y="15" class="LineChart_smallLegend">{ legend }</text>
+        <text
+          x={legendX}
+          y="15"
+          class="LineChart_smallLegend"
+        >{ legend }</text>
       </svg>
     );
   }
