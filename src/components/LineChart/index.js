@@ -41,7 +41,7 @@ class LineChart extends Component {
     });
   }
 
-  makePath = (sector, data, isLast) => {
+  makePath = (sector, data, isLast, i) => {
     const { svgWidth, svgHeight } = this.props;
 
     const first = sector[0];
@@ -62,7 +62,7 @@ class LineChart extends Component {
     });
 
     return (
-      <Fragment>
+      <Fragment key={i}>
         <path
           className="linechart_path"
           d={pathD}
@@ -90,12 +90,12 @@ class LineChart extends Component {
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
 
         {
-          sectors.map((sector, i) => this.makePath(sector, data, i === (sectors.length - 1)))
+          sectors.map((sector, i) => this.makePath(sector, data, i === (sectors.length - 1), i))
         }
         <text
           x={legendX}
           y="15"
-          class="LineChart_smallLegend"
+          className="LineChart_smallLegend"
         >{ legend }</text>
       </svg>
     );

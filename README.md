@@ -8,7 +8,7 @@ I intend to create an automated service to notify of crypto uptrends and potenti
 
 ## Algorithm
 
-I have researched a bunch of algorithms with opened source on [TradingView](https://tradingview.com) and end up porting "Average True Range Trailing Stops Strategy", by Sylvain Vervoort to JavaScript. It accounts for much varying volatility of cryptocurrencies, which prevents it from selling or buying in extra rough periods.
+I have researched a bunch of algorithms with opened source on [TradingView](https://tradingview.com) and end up porting "Average True Range Trailing Stops Strategy", by [Sylvain Vervoort](https://www.tradingview.com/u/HPotter/) to JavaScript. It accounts for much varying volatility of cryptocurrencies, which prevents it from selling or buying in extra rough periods.
 
 ## Thanks
 

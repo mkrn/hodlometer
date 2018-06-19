@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Form,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -11,9 +10,6 @@ import {
   Container,
   Row,
   Col,
-  Jumbotron,
-  Button,
-  Input,
   Modal,
   ModalHeader,
   ModalBody
@@ -22,7 +18,6 @@ import {
 import LineChart from './components/LineChart';
 import SubscribeForm from './components/SubscribeForm';
 import { hodl, hodlRevenue, hodlometerRevenue } from './lib';
-import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 
 // TOP 10 Coins
@@ -153,6 +148,13 @@ class App extends Component {
                   Telegram
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  href="https://github.com/mkrn/hodlometer"
+                >
+                  Github
+                </NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
@@ -194,11 +196,11 @@ class App extends Component {
             const chart = graphs[symbol] || [];
             const isHodl = hodl(chart);
             return (
-              <Container style={{ marginTop: 40 }}>
+              <Container style={{ marginTop: 40 }} key={symbol}>
                 <Row>
                   <Col>
                     <h1>
-                      <span class={`badge ${isHodl ? 'badge-success' : 'badge-secondary'}`}>
+                      <span className={`badge ${isHodl ? 'badge-success' : 'badge-secondary'}`}>
                         { isHodl ? 'HODL': 'FODL' }
                       </span>
                       { ' ' }
