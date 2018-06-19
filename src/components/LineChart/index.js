@@ -15,7 +15,13 @@ const getLegend = (sector, isLast) => {
     `Sell at ${last.close}` :
     `Buy back at ${last.close}`;
 
-  return isLast ? part1 : `${part1}, ${part2}`;
+  const profit = Math.round((last.close - first.close)/first.close * 100);
+
+  const part3 = hodl ?
+    (profit > 0 ? `(${profit}% Profit)` : `(${-profit}% Loss)`) :
+    (profit < 0 ? `(Prevented ${-profit}% Loss)` : '');
+
+  return isLast ? part1 : `${part1}, ${part2} ${part3}`;
 }
 
 class LineChart extends Component {
@@ -57,6 +63,11 @@ class LineChart extends Component {
 
     return (
       <Fragment>
+        <path
+          className="linechart_path"
+          d={pathD}
+          style={{ stroke }}
+        />
         <rect
           x={svgStartX}
           y="0"
@@ -65,11 +76,6 @@ class LineChart extends Component {
           onMouseOver={() => this.setLegend(sector, isLast, svgStartX)}
           onMouseOut={() => this.setState({ legend: '' })}
           style={{ fill: 'transparent' }}
-        />
-        <path
-          className="linechart_path"
-          d={pathD}
-          style={{ stroke }}
         />
       </Fragment>
     );
