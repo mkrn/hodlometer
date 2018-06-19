@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, { Component, Fragment } from "react"
 import { getSvgX, getSvgY, getSectors } from '../../lib';
 import "./styles.css"
 
@@ -46,6 +46,7 @@ class LineChart extends Component {
     const { time: firstX, close: firstY } = first;
 
     const svgStartX = getSvgX(firstX, svgWidth, data);
+    const svgEndX = getSvgX(sector[sector.length-1].time, svgWidth, data);
     const svgStartY = getSvgY(firstY, svgHeight, data);
 
     let pathD = "M " + svgStartX + " " + svgStartY + " ";
@@ -55,13 +56,22 @@ class LineChart extends Component {
     });
 
     return (
-      <path
-        className="linechart_path"
-        d={pathD}
-        style={{ stroke }}
-        onMouseOver={() => this.setLegend(sector, isLast, svgStartX)}
-        onMouseOut={() => this.setState({ legend: '' })}
-      />
+      <Fragment>
+        <rect
+          x={svgStartX}
+          y="0"
+          width={svgEndX - svgStartX}
+          height={svgHeight}
+          onMouseOver={() => this.setLegend(sector, isLast, svgStartX)}
+          onMouseOut={() => this.setState({ legend: '' })}
+          style={{ fill: 'transparent' }}
+        />
+        <path
+          className="linechart_path"
+          d={pathD}
+          style={{ stroke }}
+        />
+      </Fragment>
     );
   }
 
