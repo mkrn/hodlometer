@@ -21,8 +21,14 @@ const getLegend = (sector, isLast) => {
     (profit > 0 ? `(${profit}% Profit)` : `(${-profit}% Loss)`) :
     (profit < 0 ? `(Prevented ${-profit}% Loss)` : '');
 
-  return isLast ? part1 : `${part1}, ${part2} ${part3}`;
+  return isLast ?
+    `${part1}. Now ${last.close}` :
+    `${part1}, ${part2} ${part3}`;
 }
+
+const topMargin = 30;
+
+const strokeColor = hodl => hodl ? '#28a745' : '#dc3545';
 
 class LineChart extends Component {
   constructor(props) {
@@ -34,10 +40,12 @@ class LineChart extends Component {
     };
   }
 
-  setLegend = (sector, isLast, legendX) => {
+  setLegend = (sector, isLast, legendX, legendY) => {
     this.setState({
       legend: getLegend(sector, isLast),
+      legendHodl: sector[0].hodl,
       legendX,
+      legendY,
     });
   }
 
@@ -45,22 +53,27 @@ class LineChart extends Component {
     const { svgWidth, svgHeight } = this.props;
 
     const first = sector[0];
-    const stroke = first.hodl ? '#28a745' : '#dc3545'; //  grey '#6c757d'
+    const middle = sector[Math.floor(sector.length/2)];
+    const stroke = strokeColor(first.hodl);
 
     if (sector.length <= 0) return null;
 
     const { time: firstX, close: firstY } = first;
 
+    const heightLessMargin = svgHeight - topMargin;
+
     const svgStartX = getSvgX(firstX, svgWidth, data);
     const svgEndX = getSvgX(sector[sector.length-1].time, svgWidth, data);
-    const svgStartY = getSvgY(firstY, svgHeight, data);
+    const svgStartY = topMargin + getSvgY(firstY, heightLessMargin, data);
     const width = svgEndX - svgStartX;
     const legendX = svgStartX + width/2;
+    const legendY = topMargin + getSvgY(middle.close, heightLessMargin, data)
 
     let pathD = "M " + svgStartX + " " + svgStartY + " ";
 
     pathD += sector.map(({ time, close }, i) => {
-      return "L " + getSvgX(time, svgWidth, data) + " " + getSvgY(close, svgHeight, data) + " ";
+      return "L " + getSvgX(time, svgWidth, data) +
+             " " + (topMargin + getSvgY(close, heightLessMargin, data)) + " ";
     });
 
     return (
@@ -76,7 +89,7 @@ class LineChart extends Component {
           y="0"
           width={width}
           height={svgHeight}
-          onMouseOver={() => this.setLegend(sector, isLast, legendX)}
+          onMouseOver={() => this.setLegend(sector, isLast, legendX, legendY)}
           onMouseOut={() => this.setState({ legend: '' })}
           style={{ fill: 'transparent' }}
         />
@@ -86,13 +99,12 @@ class LineChart extends Component {
 
   render() {
     const { svgHeight, svgWidth, data } = this.props;
-    const { legend, legendX } = this.state;
+    const { legend, legendX, legendY, legendHodl } = this.state;
     const sectors = getSectors(data);
     const textAnchor = (legendX < svgWidth / 2) ? 'start' : 'end';
 
     return (
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
-
         {
           sectors.map((sector, i) => this.makePath(sector, data, i === (sectors.length - 1), i))
         }
@@ -102,6 +114,20 @@ class LineChart extends Component {
           className="LineChart_smallLegend"
           style={{ textAnchor }}
         >{ legend }</text>
+
+        {
+          legend &&
+            <line
+              x1={legendX}
+              y1="20"
+              x2={legendX}
+              y2={legendY}
+              style={{
+                stroke: strokeColor(legendHodl),
+                pointerEvents: "none"
+              }}
+            />
+        }
       </svg>
     );
   }
@@ -109,7 +135,7 @@ class LineChart extends Component {
 LineChart.defaultProps = {
   data: [],
   color: '#2196F3',
-  svgHeight: 75,
+  svgHeight: 90,
   svgWidth: 700
 }
 
