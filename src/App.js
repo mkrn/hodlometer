@@ -17,7 +17,7 @@ import {
 
 import LineChart from './components/LineChart';
 import SubscribeForm from './components/SubscribeForm';
-import { hodl, hodlRevenue, hodlometerRevenue } from './lib';
+import { hodl, hodlRevenue, hodlometerRevenue, fix, fix2 } from './lib';
 import 'bootstrap/dist/css/bootstrap.css';
 
 // TOP 10 Coins
@@ -194,32 +194,43 @@ class App extends Component {
         {
           coins.map(({ symbol, name }) => {
             const chart = graphs[symbol] || [];
+            const loaded = !!chart.length;
             const isHodl = hodl(chart);
+            const target = loaded && chart[chart.length - 1].trailing;
+            // Format BTC or USD amounts properly
+            const targetFormatted = symbol.indexOf('USD') > 0 ? fix2(target) : fix(target);
+
             return (
               <Container style={{ marginTop: 40 }} key={symbol}>
                 <Row>
                   <Col>
                     <h1>
-                      <span className={`badge ${isHodl ? 'badge-success' : 'badge-secondary'}`}>
-                        { isHodl ? 'HODL': 'FODL' }
-                      </span>
+                      { loaded &&
+                        <span className={`badge ${isHodl ? 'badge-success' : 'badge-secondary'}`}>
+                          { isHodl ? 'HODL': 'FODL' }
+                        </span>
+                      }
                       { ' ' }
                       { name }
                     </h1>
 
-                    { !!chart.length &&
+                    { loaded &&
                       <p>
-                        { chart.length } days return:
-                        HODLing: { hodlRevenue(chart) }%,
-                        HODLometer: <strong>{ hodlometerRevenue(chart) }%</strong>
+                        { isHodl ? 'Sell target': 'Buy back target' }: {targetFormatted}
                       </p>
                     }
 
                     <LineChart data={chart} />
 
-                    <p style={{ fontSize: '8px', textAlign: 'right' }}>
-                      {symbol} on Binance
-                    </p>
+                    { loaded &&
+                      <p style={{ fontSize: '10px', textAlign: 'center' }}>
+                        { chart.length } days return:
+                        HODLing: { hodlRevenue(chart) }%,
+                        HODLometer: <strong>{ hodlometerRevenue(chart) }%</strong>
+                        { ' ' }
+                        (Data: {symbol} on Binance)
+                      </p>
+                    }
                   </Col>
                 </Row>
               </Container>

@@ -56,3 +56,11 @@ export const hodlometerRevenue = graph => {
   }, revenue) - revenue;
   return Math.round(total);
 }
+
+
+export const fix = num =>
+  num ? parseFloat(parseFloat(num).toFixed(8)) : 0;
+
+export const fix2 = num =>
+  num ? parseFloat(parseFloat(num).toFixed(2)) : 0;
+  
