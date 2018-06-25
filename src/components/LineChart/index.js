@@ -54,6 +54,8 @@ class LineChart extends Component {
     const svgStartX = getSvgX(firstX, svgWidth, data);
     const svgEndX = getSvgX(sector[sector.length-1].time, svgWidth, data);
     const svgStartY = getSvgY(firstY, svgHeight, data);
+    const width = svgEndX - svgStartX;
+    const legendX = svgStartX + width/2;
 
     let pathD = "M " + svgStartX + " " + svgStartY + " ";
 
@@ -69,11 +71,12 @@ class LineChart extends Component {
           style={{ stroke, pointerEvents: "none" }}
         />
         <rect
+          id={`rect_${i}`}
           x={svgStartX}
           y="0"
-          width={svgEndX - svgStartX}
+          width={width}
           height={svgHeight}
-          onMouseOver={() => this.setLegend(sector, isLast, svgStartX)}
+          onMouseOver={() => this.setLegend(sector, isLast, legendX)}
           onMouseOut={() => this.setState({ legend: '' })}
           style={{ fill: 'transparent' }}
         />
@@ -85,6 +88,7 @@ class LineChart extends Component {
     const { svgHeight, svgWidth, data } = this.props;
     const { legend, legendX } = this.state;
     const sectors = getSectors(data);
+    const textAnchor = (legendX < svgWidth / 2) ? 'start' : 'end';
 
     return (
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
@@ -96,6 +100,7 @@ class LineChart extends Component {
           x={legendX}
           y="15"
           className="LineChart_smallLegend"
+          style={{ textAnchor }}
         >{ legend }</text>
       </svg>
     );

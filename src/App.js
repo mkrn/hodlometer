@@ -7,17 +7,11 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container,
-  Row,
-  Col,
-  Modal,
-  ModalHeader,
-  ModalBody
 } from 'reactstrap';
 
-import LineChart from './components/LineChart';
+import Coin from './components/Coin';
+import Explain from './components/Explain';
 import SubscribeForm from './components/SubscribeForm';
-import { hodl, hodlRevenue, hodlometerRevenue, fix, fix2 } from './lib';
 import 'bootstrap/dist/css/bootstrap.css';
 
 // TOP 10 Coins
@@ -53,16 +47,6 @@ const coins = [
     symbol: 'TRXBTC', name: 'Tron'
   }
 ];
-
-const Explain = ({ children, title, isOpen, toggle }) => (
-  <Modal isOpen={isOpen} toggle={toggle}>
-    <ModalHeader toggle={toggle}>{ title }</ModalHeader>
-    <ModalBody>
-      { children }
-    </ModalBody>
-  </Modal>
-);
-
 
 class App extends Component {
   constructor(props) {
@@ -192,50 +176,9 @@ class App extends Component {
         </Explain>
 
         {
-          coins.map(({ symbol, name }) => {
-            const chart = graphs[symbol] || [];
-            const loaded = !!chart.length;
-            const isHodl = hodl(chart);
-            const target = loaded && chart[chart.length - 1].trailing;
-            // Format BTC or USD amounts properly
-            const targetFormatted = symbol.indexOf('USD') > 0 ? fix2(target) : fix(target);
-
-            return (
-              <Container style={{ marginTop: 40 }} key={symbol}>
-                <Row>
-                  <Col>
-                    <h1>
-                      { loaded &&
-                        <span className={`badge ${isHodl ? 'badge-success' : 'badge-secondary'}`}>
-                          { isHodl ? 'HODL': 'FODL' }
-                        </span>
-                      }
-                      { ' ' }
-                      { name }
-                    </h1>
-
-                    { loaded &&
-                      <p>
-                        { isHodl ? 'Sell target': 'Buy back target' }: {targetFormatted}
-                      </p>
-                    }
-
-                    <LineChart data={chart} />
-
-                    { loaded &&
-                      <p style={{ fontSize: '10px', textAlign: 'center' }}>
-                        { chart.length } days return:
-                        HODLing: { hodlRevenue(chart) }%,
-                        HODLometer: <strong>{ hodlometerRevenue(chart) }%</strong>
-                        { ' ' }
-                        (Data: {symbol} on Binance)
-                      </p>
-                    }
-                  </Col>
-                </Row>
-              </Container>
-            )
-          })
+          coins.map(({ symbol, name }) =>
+            (<Coin key={symbol} symbol={symbol} name={name} chart={graphs[symbol] || []} />)
+          )
         }
 
         <SubscribeForm />

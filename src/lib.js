@@ -57,10 +57,11 @@ export const hodlometerRevenue = graph => {
   return Math.round(total);
 }
 
-
+// Format cryptocurrency price to 8 digits after .
 export const fix = num =>
   num ? parseFloat(parseFloat(num).toFixed(8)) : 0;
 
+// Format USD price
 export const fix2 = num =>
   num ? parseFloat(parseFloat(num).toFixed(2)) : 0;
-  
+
