@@ -1,34 +1,8 @@
 import React, { Component, Fragment } from "react"
-import { getSvgX, getSvgY, getSectors } from '../../lib';
+import { getSvgX, getSvgY, getSectors, getLegend, strokeColor } from '../../lib';
 import "./styles.css"
 
-const getLegend = (sector, isLast) => {
-  const first = sector[0];
-  const last = sector[sector.length-1];
-  const hodl = first.hodl;
-
-  const part1 = hodl ?
-    `Buy at ${first.close}` :
-    `Sell at ${first.close}`;
-
-  const part2 = hodl ?
-    `Sell at ${last.close}` :
-    `Buy back at ${last.close}`;
-
-  const profit = Math.round((last.close - first.close)/first.close * 100);
-
-  const part3 = hodl ?
-    (profit > 0 ? `(${profit}% Profit)` : `(${-profit}% Loss)`) :
-    (profit < 0 ? `(Prevented ${-profit}% Loss)` : '');
-
-  return isLast ?
-    `${part1}. Now ${last.close}` :
-    `${part1}, ${part2} ${part3}`;
-}
-
 const topMargin = 30;
-
-const strokeColor = hodl => hodl ? '#28a745' : '#dc3545';
 
 class LineChart extends Component {
   constructor(props) {

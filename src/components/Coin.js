@@ -55,8 +55,8 @@ class Coin extends Component {
                   target={tooltipId}
                   toggle={this.toggle}
                 >
-                  { isHodl ? 'Sell': 'Buy back' } when day closes above this price. Target can change
-                  if the {symbol} price { isHodl ? 'goes higher': 'falls further' }
+                  <p>{ isHodl ? 'Sell': 'Buy back' } if day closes { isHodl ? 'below': 'above' } this price.</p>
+                  <p>* Target can change if the {symbol} price { isHodl ? 'goes higher': 'falls further' }</p>
                 </Tooltip>
               </Fragment>
             }

@@ -45,6 +45,36 @@ const coins = [
   },
   {
     symbol: 'TRXBTC', name: 'Tron'
+  },
+  {
+    symbol: 'NEOBTC', name: 'NEO'
+  },
+  {
+    symbol: 'XMRBTC', name: 'Monero'
+  },
+  {
+    symbol: 'DASHBTC', name: 'Dash'
+  },
+  {
+    symbol: 'BNBBTC', name: 'Binance Coin'
+  },
+  {
+    symbol: 'ETCBTC', name: 'Ethereum Classic'
+  },
+  {
+    symbol: 'VENBTC', name: 'VeChain'
+  },
+  {
+    symbol: 'XEMBTC', name: 'NEM'
+  },
+  {
+    symbol: 'ONTBTC', name: 'Ontology'
+  },
+  {
+    symbol: 'OMGBTC', name: 'OmiseGo'
+  },
+  {
+    symbol: 'QTUMBTC', name: 'Qtum'
   }
 ];
 
