@@ -46,7 +46,7 @@ class Coin extends Component {
               <Fragment>
                 <p>
                   <span id={tooltipId}>
-                    { isHodl ? 'Sell target': 'Buy back target' }: {targetFormatted}
+                    { isHodl ? 'Stop Loss': 'Buy back target' }: {targetFormatted}
                   </span>
                 </p>
                 <Tooltip
